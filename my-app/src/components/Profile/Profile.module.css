@@ -1,0 +1,8 @@
+.profileBlock {
+    background: darkseagreen;
+    width: 100%;
+}
+
+.profileBlock ul{
+    list-style-type: none;
+}
