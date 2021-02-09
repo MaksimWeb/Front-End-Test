@@ -12,6 +12,7 @@ class ProfileContainer extends React.Component {
         if (!userId) {
             userId = 1;
         }
+
         let pro = this.props.workers.find(w => w.id == userId)
         this.props.setUserProfile(pro)
     }
