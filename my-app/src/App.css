@@ -1,0 +1,9 @@
+.app-wrapper {
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.app-content {
+  display: flex;
+  column-gap: 10px;
+}
