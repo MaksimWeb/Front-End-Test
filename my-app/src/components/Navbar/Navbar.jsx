@@ -9,9 +9,11 @@ const Navbar = () => {
                 <NavLink to={'/workers'} className={style.item}>Список сотрудников</NavLink>
             </div>
             <div>
-                <NavLink to={'profile'} className={style.item}>Профиль</NavLink>
+                <NavLink to={'/profile'} className={style.item}>Профиль</NavLink>
             </div>
-
+            <div>
+                <NavLink to={'/adduser'} className={style.item}>Добавить сотрудника</NavLink>
+            </div>
         </nav>
     )
 };

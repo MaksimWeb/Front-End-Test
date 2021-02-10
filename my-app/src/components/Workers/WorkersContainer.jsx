@@ -4,8 +4,14 @@ import Workers from "./Workers";
 
 
 class workersContainer extends React.Component {
+
     render () {
-        return <Workers workers={this.props.workers}/>
+        if (this.props.workers) {
+            return <Workers workers={this.props.workers}/>
+        }
+        else {
+            return <p>Loading...Please wait</p>
+        }
     }
 }
 

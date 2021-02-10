@@ -14,7 +14,7 @@ const Workers = (props) => {
                             <li>{w.middlename}</li>
                             <li>Возраст: {w.age}</li>
                             <li>Должность: {w.position}</li>
-                            <li>Зарплата: {w.salary}</li>
+                            <li>Зарплата: {w.salary} руб.</li>
                         </ul>
                     </NavLink>
                 </div>)

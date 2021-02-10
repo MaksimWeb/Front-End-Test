@@ -6,3 +6,8 @@
 .profileBlock ul{
     list-style-type: none;
 }
+
+.button {
+    padding: 10px;
+    margin-right: 5px;
+}
