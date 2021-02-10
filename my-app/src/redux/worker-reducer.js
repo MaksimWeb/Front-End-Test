@@ -48,8 +48,11 @@ let initialState = {
     newPosition: '',
     newSalary: '',
     isDeleted: false,
-    isChanged: false
+    isChanged: false,
+    newArr: []
 }
+
+
 
 const workerReducer = (state = initialState, action) => {
 
@@ -97,23 +100,25 @@ const workerReducer = (state = initialState, action) => {
 
         case PROFILE_IS_CHANGING: {
 
-            state.newSurname = action.surname
-            state.newName = action.name
-            state.newMiddlename = action.middlename
-            state.newAge = action.age
-            state.newPosition = action.position
-            state.newSalary = action.salary
-            let n = state.workers.find(w => w.id === action.userId);
-            n.surname = state.newSurname
-            n.name = state.newName
-            n.middlename = state.newMiddlename
-            n.age = state.newAge
-            n.position = state.newPosition
-            n.salary = state.newSalary
+            let users = [...state.workers]
+            let n = users.find(w => w.id === action.userId);
+            n.surname = action.surname
+            n.name = action.name
+            n.middlename = action.middlename
+            n.age = action.age
+            n.position = action.position
+            n.salary = action.salary
 
             return {
                 ...state,
-                workers: [...state.workers]
+                workers: [...state.workers],
+                newSurname: action.surname,
+                newName: action.name,
+                newMiddlename: action.middlename,
+                newAge: action.age,
+                newPosition: action.position,
+                newSalary: action.salary,
+                newArr: users
             }
         }
 
