@@ -12,6 +12,7 @@ import {
 } from "../../redux/worker-reducer";
 
 
+
 class ProfileContainer extends React.Component {
 
     componentDidMount() {
@@ -22,6 +23,7 @@ class ProfileContainer extends React.Component {
 
         let pro = this.props.workers.workers.find(w => w.id == userId)
         this.props.setUserProfile(pro)
+
     }
 
     render() {
@@ -43,4 +45,10 @@ let mapStateToProps = (state) => ({
 
 let withURLDataContainer = withRouter(ProfileContainer);
 
-export default connect(mapStateToProps, {setUserProfile, deleteUser, toggleIsDeleting, changeProfileData, isChanging, toggleIsChanging})(withURLDataContainer);
+export default connect(mapStateToProps,
+    {setUserProfile,
+        deleteUser, toggleIsDeleting,
+        changeProfileData,
+        isChanging,
+        toggleIsChanging,
+    })(withURLDataContainer);

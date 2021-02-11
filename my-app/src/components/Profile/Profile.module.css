@@ -11,3 +11,8 @@
     padding: 10px;
     margin-right: 5px;
 }
+
+.workerAvatar {
+    width: 200px;
+    height: 200px;
+}

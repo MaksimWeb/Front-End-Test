@@ -1,7 +1,6 @@
 import React from "react";
 
 const ADD_USER = 'ADD_USER';
-const ADD_CHANGE = 'ADD_CHANGE';
 const PROFILE_IS_CHANGING = 'PROFILE_IS_CHANGING';
 const ACCEPT_PROFILE_CHANGE = 'ACCEPT_PROFILE_CHANGE';
 const DELETE = 'DELETE';
@@ -18,7 +17,7 @@ let initialState = {
             age: 26,
             position: 'Front-End',
             salary: '130000',
-            avatar: 'https://lh3.googleusercontent.com/proxy/nAZhBut55Nd7MheXeleHFa0q3bkh12chtDD76U9Y-yC0_A5nfOThnBJHPiATpjdsj478Ss9mvx-KDbb6fcXJxWZ7THu8e07hbWzLcOc'
+            avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467'
         },
         {
             id: 2,
@@ -28,7 +27,7 @@ let initialState = {
             age: 20,
             position: 'Back-End',
             salary: '13000',
-            avatar: 'https://lh3.googleusercontent.com/proxy/nAZhBut55Nd7MheXeleHFa0q3bkh12chtDD76U9Y-yC0_A5nfOThnBJHPiATpjdsj478Ss9mvx-KDbb6fcXJxWZ7THu8e07hbWzLcOc'
+            avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467'
         },
         {
             id: 3,
@@ -38,20 +37,13 @@ let initialState = {
             age: 22,
             position: 'Верстальщик',
             salary: '50000',
-            avatar: 'https://lh3.googleusercontent.com/proxy/nAZhBut55Nd7MheXeleHFa0q3bkh12chtDD76U9Y-yC0_A5nfOThnBJHPiATpjdsj478Ss9mvx-KDbb6fcXJxWZ7THu8e07hbWzLcOc'
+            avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467'
         }
     ],
-    newSurname: '',
-    newName: '',
-    newMiddlename: '',
-    newAge: '',
-    newPosition: '',
-    newSalary: '',
     isDeleted: false,
     isChanged: false,
     newArr: []
 }
-
 
 
 const workerReducer = (state = initialState, action) => {
@@ -65,13 +57,13 @@ const workerReducer = (state = initialState, action) => {
 
             let worker = {
                 id: id,
-                surname: state.newSurname,
-                name: state.newName,
-                middlename: state.newMiddlename,
-                position: state.newPosition,
-                age: state.newAge,
-                salary: state.newSalary,
-                avatar: 'https://lh3.googleusercontent.com/proxy/nAZhBut55Nd7MheXeleHFa0q3bkh12chtDD76U9Y-yC0_A5nfOThnBJHPiATpjdsj478Ss9mvx-KDbb6fcXJxWZ7THu8e07hbWzLcOc'
+                surname: action.newWorkerInfo.workerSurname,
+                name: action.newWorkerInfo.workerName,
+                middlename: action.newWorkerInfo.workerMiddlename,
+                position: action.newWorkerInfo.workerPosition,
+                age: action.newWorkerInfo.workerAge,
+                salary: action.newWorkerInfo.workerSalary,
+                avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467'
             }
 
             return {
@@ -83,18 +75,6 @@ const workerReducer = (state = initialState, action) => {
                 newAge: '',
                 newPosition: '',
                 newSalary: ''
-            }
-        }
-
-        case ADD_CHANGE: {
-            return {
-                ...state,
-                newSurname: action.surname,
-                newName: action.name,
-                newMiddlename: action.middlename,
-                newAge: action.age,
-                newPosition: action.position,
-                newSalary: action.salary
             }
         }
 
@@ -166,12 +146,6 @@ const workerReducer = (state = initialState, action) => {
 
 export default workerReducer;
 
-export const changeData = (surname, name, middlename, age, position, salary) => {
-    return {
-        type: ADD_CHANGE,
-        surname, name, middlename, age, position, salary
-    }
-}
 
 export const isChanging = (userId, surname, name, middlename, age, position, salary) => {
     return {
@@ -187,9 +161,10 @@ export const changeProfileData = (userId) => {
     }
 }
 
-export const addUser = () => {
+export const addUser = (newWorkerInfo) => {
     return {
         type: ADD_USER,
+        newWorkerInfo
     }
 }
 

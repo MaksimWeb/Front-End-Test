@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import AddWorker from "./AddWorker";
-import {addUser, changeData} from "../../redux/worker-reducer";
+import {addUser} from "../../redux/worker-reducer";
 
 
 class addWorkerContainer extends React.Component {
@@ -17,4 +17,4 @@ let mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,{addUser, changeData})(addWorkerContainer);
+export default connect(mapStateToProps,{addUser})(addWorkerContainer);
