@@ -1,5 +1,6 @@
 import React from "react";
 
 export const Input = (props) => {
-    return <input type="text"/>
+    debugger
+    return <input type="text" />
 }

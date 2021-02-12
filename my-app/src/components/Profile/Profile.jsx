@@ -1,13 +1,13 @@
 import React from "react";
 import style from "./Profile.module.css"
 import {Redirect} from 'react-router-dom';
-import {Field, reduxForm} from "redux-form";
-import {Input} from "../../Common/FormControls/FormControls";
+import { Formik, Field, Form } from 'formik';
+
 
 const Profile = (props) => {
 
     let deleteUser = () => props.deleteUser(props.profile.id);
-    let changeUser = () => props.changeProfileData(props.profile.id);
+    let changeUser = (values, id) => props.changeProfileData(values, id);
     let changeState = () => props.toggleIsDeleting(false);
     let changeData = () => props.toggleIsChanging(false);
 
@@ -24,44 +24,53 @@ const Profile = (props) => {
 
     return (
         <div className={style.profileBlock}>
+            <h1>Редактирование профиля</h1>
             <img className={style.workerAvatar} src={props.profile.avatar} alt="Аватар"/>
-            <EditProfileReduxForm profile={props.profile} />
-            <button onClick={changeUser} className={style.button} type='submit'>Сохранить изменения</button>
-            <button onClick={deleteUser} className={style.button} type='submit'>Удалить сотрудника</button>
+            <Basic profile={props.profile} changeData={changeUser} deleteUser={deleteUser}/>
         </div>
     )
 }
 
-const editProfileForm = (props) => {
+const Basic = (props) => (
+    <div>
+        <Formik
+            initialValues={{
+                editedSurname: props.profile.surname,
+                editedName: props.profile.name,
+                editedMiddlename: props.profile.middlename,
+                editedAge: props.profile.age,
+                editedPosition: props.profile.position,
+                editedSalary: props.profile.salary,
+            }}
+            onSubmit={async (values) => {
+                props.changeData(values, props.profile.id)
+            }}
+        >
+            <Form>
+                <label htmlFor="lastName">Фамилия</label>
+                <Field id="lastName" name="editedSurname" placeholder="Введите фамилию" />
 
-    return <form onSubmit={props.handleSubmit}>
-        <label>
-            Фамилия
-            <Field name="editedSurname" component={Input(props.profile)} />
-        </label>
-        <label>
-            Имя
-            <Field name="editedName" component="input" value={props.profile.surname}/>
-        </label>
-        <label>
-            Отчество
-            <Field name="editedMiddlename" component="input" value={props.profile.surname}/>
-        </label>
-        <label>
-            Возраст
-            <Field name="editedAge" component="input" type="number" value={props.profile.surname}/>
-        </label>
-        <label>
-            Должность
-            <Field name="editedPosition" component="input" value={props.profile.surname}/>
-        </label>
-        <label>
-            Заработная плата (руб.)
-            <Field name="editedSalary" component="input" type="number" value={props.profile.surname}/>
-        </label>
-    </form>
-}
+                <label htmlFor="firstName">Имя</label>
+                <Field id="firstName" name="editedName" placeholder="Введите имя" />
 
-const EditProfileReduxForm = reduxForm ({form:'editProfileForm'}) (editProfileForm);
+                <label htmlFor="middleName">Отчество</label>
+                <Field id="middleName" name="editedMiddlename" placeholder="Введите отчество" />
+
+                <label htmlFor="firstName">Возраст</label>
+                <Field id="firstName" name="editedAge" type="number" placeholder="Введите вораст сотрудника" />
+
+                <label htmlFor="firstName">Должность</label>
+                <Field id="firstName" name="editedPosition" placeholder="Введите должность сотрудника" />
+
+                <label htmlFor="firstName">Заработная плата (руб.)</label>
+                <Field id="firstName" name="editedSalary" type="number" placeholder="Введите зп сотрудника" />
+
+
+                <button type="submit" className={style.button} >Сохранить изменения</button>
+                <button onClick={props.deleteUser} className={style.button} type='submit'>Удалить сотрудника</button>
+            </Form>
+        </Formik>
+    </div>
+);
 
 export default Profile;

@@ -1,7 +1,6 @@
 import React from "react";
 
 const ADD_USER = 'ADD_USER';
-const PROFILE_IS_CHANGING = 'PROFILE_IS_CHANGING';
 const ACCEPT_PROFILE_CHANGE = 'ACCEPT_PROFILE_CHANGE';
 const DELETE = 'DELETE';
 const TOGGLE_IS_DELETING = 'TOGGLE_IS_DELETING';
@@ -69,44 +68,22 @@ const workerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 workers: [...state.workers, worker],
-                newSurname: '',
-                newName: '',
-                newMiddlename: '',
-                newAge: '',
-                newPosition: '',
-                newSalary: ''
-            }
-        }
-
-        case PROFILE_IS_CHANGING: {
-
-            let users = [...state.workers]
-            let n = users.find(w => w.id === action.userId);
-            n.surname = action.surname
-            n.name = action.name
-            n.middlename = action.middlename
-            n.age = action.age
-            n.position = action.position
-            n.salary = action.salary
-
-            return {
-                ...state,
-                workers: [...state.workers],
-                newSurname: action.surname,
-                newName: action.name,
-                newMiddlename: action.middlename,
-                newAge: action.age,
-                newPosition: action.position,
-                newSalary: action.salary,
-                newArr: users
             }
         }
 
 
         case ACCEPT_PROFILE_CHANGE: {
+            let arr = [...state.workers]
+            let user = arr.find(el => el.id === action.userId)
+            user.surname = action.worker.editedSurname
+            user.name = action.worker.editedName
+            user.middlename = action.worker.editedMiddlename
+            user.age = action.worker.editedAge
+            user.position = action.worker.editedPosition
+            user.salary = action.worker.editedSalary
             return {
                 ...state,
-                workers: [...state.workers],
+                workers: [...arr],
                 isChanged: true
             }
         }
@@ -147,17 +124,11 @@ const workerReducer = (state = initialState, action) => {
 export default workerReducer;
 
 
-export const isChanging = (userId, surname, name, middlename, age, position, salary) => {
-    return {
-        type: PROFILE_IS_CHANGING,
-        surname, name, middlename, age, position, salary, userId
-    }
-}
-
-export const changeProfileData = (userId) => {
+export const changeProfileData = (worker, userId) => {
     return {
         type: ACCEPT_PROFILE_CHANGE,
-        userId
+        userId,
+        worker
     }
 }
 

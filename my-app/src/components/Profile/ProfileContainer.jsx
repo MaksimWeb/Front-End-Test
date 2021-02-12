@@ -6,11 +6,9 @@ import {setUserProfile} from "../../redux/profile-reducer";
 import {
     changeProfileData,
     deleteUser,
-    isChanging,
     toggleIsChanging,
     toggleIsDeleting
 } from "../../redux/worker-reducer";
-
 
 
 class ProfileContainer extends React.Component {
@@ -23,22 +21,19 @@ class ProfileContainer extends React.Component {
 
         let pro = this.props.workers.workers.find(w => w.id == userId)
         this.props.setUserProfile(pro)
-
     }
 
     render() {
 
         if (this.props.profile) {
-            return  <Profile {...this.props} profile={this.props.profile}/>
-        }
-        else {
+            return <Profile {...this.props} profile={this.props.profile}/>
+        } else {
             return <p>Loading...Please wait</p>
         }
     }
 }
 
 let mapStateToProps = (state) => ({
-
     workers: state.workerPage,
     profile: state.profilePage.profile,
 })
@@ -46,9 +41,9 @@ let mapStateToProps = (state) => ({
 let withURLDataContainer = withRouter(ProfileContainer);
 
 export default connect(mapStateToProps,
-    {setUserProfile,
+    {
+        setUserProfile,
         deleteUser, toggleIsDeleting,
         changeProfileData,
-        isChanging,
         toggleIsChanging,
     })(withURLDataContainer);

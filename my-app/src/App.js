@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import WorkersContainer from "./components/Workers/WorkersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import AddWorkerContainer from "./components/AddWorker/AddWorkerContainer"
+import { useField, Form, FormikProps, Formik } from 'formik';
 
 function App(props) {
     return (
@@ -13,9 +14,9 @@ function App(props) {
                 <Header/>
                 <div className="app-content">
                     <Navbar/>
-                    <Route path={'/workers'} render={() => <WorkersContainer />}/>
-                    <Route path={'/profile/:userId?'} render={() => <ProfileContainer />}/>
-                    <Route path={'/adduser'} render={() => <AddWorkerContainer />}/>
+                    <Route path={'/workers'} render={() => <WorkersContainer/>}/>
+                    <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
+                    <Route path={'/adduser'} render={() => <AddWorkerContainer/>}/>
                 </div>
             </div>
         </BrowserRouter>
