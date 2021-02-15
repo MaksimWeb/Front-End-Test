@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
@@ -10,28 +10,51 @@ import {
     toggleIsDeleting
 } from "../../redux/worker-reducer";
 
+const ProfileContainer = (props) => {
 
-class ProfileContainer extends React.Component {
-
-    componentDidMount() {
-        let userId = this.props.match.params.userId;
+    let userId = props.match.params.userId;
         if (!userId) {
             userId = 1;
         }
 
-        let pro = this.props.workers.workers.find(w => w.id == userId)
-        this.props.setUserProfile(pro)
+        let pro = props.workers.workers.find(w => w.id == userId)
+
+
+    let [profile, setProfile] = useState(pro);
+
+    useEffect(() => {
+        props.setUserProfile(profile)
+    },[pro])
+
+    if (profile) {
+        return <Profile {...props} profile={profile}/>
+    } else {
+        return <p>Loading...Please wait</p>
     }
 
-    render() {
-
-        if (this.props.profile) {
-            return <Profile {...this.props} profile={this.props.profile}/>
-        } else {
-            return <p>Loading...Please wait</p>
-        }
-    }
 }
+
+// class ProfileContainer extends React.Component {
+//
+//     componentDidMount() {
+//         let userId = this.props.match.params.userId;
+//         if (!userId) {
+//             userId = 1;
+//         }
+//
+//         let pro = this.props.workers.workers.find(w => w.id == userId)
+//         this.props.setUserProfile(pro)
+//     }
+//
+//     render() {
+//
+//         if (this.props.profile) {
+//             return <Profile {...this.props} profile={this.props.profile}/>
+//         } else {
+//             return <p>Loading...Please wait</p>
+//         }
+//     }
+// }
 
 let mapStateToProps = (state) => ({
     workers: state.workerPage,

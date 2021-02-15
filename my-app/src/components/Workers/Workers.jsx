@@ -3,6 +3,7 @@ import style from "./Workers.module.css"
 import {NavLink} from "react-router-dom";
 
 const Workers = (props) => {
+
     return (
         <div className={style.workersBlock}>
             {

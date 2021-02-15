@@ -6,6 +6,15 @@ const DELETE = 'DELETE';
 const TOGGLE_IS_DELETING = 'TOGGLE_IS_DELETING';
 const TOGGLE_IS_CHANGING = 'TOGGLE_IS_CHANGING';
 
+
+class Profit  {
+    constructor(salary, month, year) {
+        this.salary = salary
+        this.month = month
+        this.year = year
+    }
+}
+
 let initialState = {
     workers: [
         {
@@ -16,7 +25,11 @@ let initialState = {
             age: 26,
             position: 'Front-End',
             salary: '130000',
-            avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467'
+            avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467',
+            profit: [
+                new Profit (130000, 2, 2001),
+                new Profit (130000, 2, 2001)
+            ]
         },
         {
             id: 2,
@@ -26,7 +39,10 @@ let initialState = {
             age: 20,
             position: 'Back-End',
             salary: '13000',
-            avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467'
+            avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467',
+            profit: [
+                new Profit (13000, 1, 2004)
+            ]
         },
         {
             id: 3,
@@ -36,7 +52,10 @@ let initialState = {
             age: 22,
             position: 'Верстальщик',
             salary: '50000',
-            avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467'
+            avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467',
+            profit: [
+                new Profit (50000, 5, 2000)
+            ]
         }
     ],
     isDeleted: false,
