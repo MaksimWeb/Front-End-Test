@@ -5,19 +5,34 @@ import {Formik, Field, Form, FieldArray} from 'formik';
 import {Button, InputLabel, TextField} from "@material-ui/core";
 import * as Yup from 'yup';
 
-
+const symbols = (/^[^0-9]*$/);
 
 const SignupSchema = Yup.object().shape({
     editedSurname: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required')
-        .matches(/^(?=.*?[А-яа-я])[А-яа-я+]+$/, 'Invalid surname')
-    // lastName: Yup.string()
-    //     .min(2, 'Too Short!')
-    //     .max(50, 'Too Long!')
-    //     .required('Required'),
-    // email: Yup.string().email('Invalid email').required('Required'),
+        .matches(symbols, 'Invalid surname'),
+    editedName: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required')
+        .matches(symbols, 'Invalid name'),
+    editedMiddlename: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required')
+        .matches(symbols, 'Invalid middlename'),
+    editedPosition: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required')
+        .matches(symbols, 'Invalid position'),
+    editedProfit: Yup.array().of(
+        Yup.object({
+            salary: Yup.string().required()
+        })
+    )
 });
 
 const Profile = (props) => {
