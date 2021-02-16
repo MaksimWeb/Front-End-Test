@@ -2,7 +2,23 @@ import React from "react";
 import style from "./Profile.module.css"
 import {Redirect} from 'react-router-dom';
 import {Formik, Field, Form, FieldArray} from 'formik';
+import {Button, InputLabel, TextField} from "@material-ui/core";
+import * as Yup from 'yup';
 
+
+
+const SignupSchema = Yup.object().shape({
+    editedSurname: Yup.string()
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required')
+        .matches(/^(?=.*?[А-яа-я])[А-яа-я+]+$/, 'Invalid surname')
+    // lastName: Yup.string()
+    //     .min(2, 'Too Short!')
+    //     .max(50, 'Too Long!')
+    //     .required('Required'),
+    // email: Yup.string().email('Invalid email').required('Required'),
+});
 
 const Profile = (props) => {
 
@@ -42,36 +58,76 @@ const Basic = (props) => (
                 editedAge: props.profile.age,
                 editedPosition: props.profile.position,
                 editedSalary: props.profile.salary,
-
+                editedProfit: props.profile.profit
             }}
+            validationSchema={SignupSchema}
             onSubmit={async (values) => {
                 props.changeData(values, props.profile.id)
             }}
         >
+            {({values, errors, touched}) => (
+                <Form className={style.form}>
+                    <InputLabel htmlFor='lastName'>Фамилия</InputLabel>
+                    <Field className={style.formField} id="lastName" name="editedSurname" placeholder="Введите фамилию"
+                           as={TextField}/>
+                    {errors.editedSurname && touched.editedSurname ? (<div>{errors.editedSurname}</div>
+                    ) : null}
 
-            <Form>
-                <label htmlFor="lastName">Фамилия</label>
-                <Field id="lastName" name="editedSurname" placeholder="Введите фамилию"/>
+                    <InputLabel htmlFor='firstName'>Имя</InputLabel>
+                    <Field className={style.formField} id="firstName" name="editedName" placeholder="Введите имя"
+                           as={TextField}/>
 
-                <label htmlFor="firstName">Имя</label>
-                <Field id="firstName" name="editedName" placeholder="Введите имя"/>
+                    <InputLabel htmlFor='middleName'>Отчество</InputLabel>
+                    <Field className={style.formField} id="middleName" name="editedMiddlename"
+                           placeholder="Введите отчество" as={TextField}/>
 
-                <label htmlFor="middleName">Отчество</label>
-                <Field id="middleName" name="editedMiddlename" placeholder="Введите отчество"/>
+                    <InputLabel htmlFor='age'>Возраст</InputLabel>
+                    <Field className={style.formField} id="age" name="editedAge" type="number"
+                           placeholder="Введите вораст сотрудника" as={TextField}/>
 
-                <label htmlFor="age">Возраст</label>
-                <Field id="age" name="editedAge" type="number" placeholder="Введите вораст сотрудника"/>
+                    <InputLabel htmlFor='position'>Должность</InputLabel>
+                    <Field className={style.formField} id="position" name="editedPosition"
+                           placeholder="Введите должность сотрудника" as={TextField}/>
 
-                <label htmlFor="position">Должность</label>
-                <Field id="position" name="editedPosition" placeholder="Введите должность сотрудника"/>
+                    <InputLabel htmlFor='salary'>Заработная плата (руб.)</InputLabel>
+                    <Field className={style.formField} id="salary" name="editedSalary" type="number"
+                           placeholder="Введите зп сотрудника" as={TextField}/>
 
-                <label htmlFor="salary">Заработная плата (руб.)</label>
-                <Field id="salary" name="editedSalary" type="number" placeholder="Введите зп сотрудника"/>
+                    <div>
+                        <FieldArray name='editedProfit'>
+                            {(arrayHelpers) => (
+                                <div>
+                                    <Button onClick={() => arrayHelpers.push({
+                                        name: '',
+                                        age: ''
+                                    })}>Добавить доход</Button>
+                                    {values.editedProfit.map((profit, index) => {
+                                        return (
+                                            <div key={profit.salary}>
+                                                <Field as={TextField} type="number" placeholder='Заработок'
+                                                       name={`editedProfit.${index}.salary`}/>
+                                                <Field as={TextField} type='date' placeholder='Месяц'
+                                                       name={`editedProfit.${index}.date`}/>
 
+                                                <Button onClick={() => arrayHelpers.remove(index)}>x</Button>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            )
+                            }
+                        </FieldArray>
+                        <Button type="submit">Сохранить изменения</Button>
+                        <Button onClick={props.deleteUser} className={style.button} type='submit'>Удалить
+                            сотрудника</Button>
+                    </div>
 
-                <button type="submit" className={style.button}>Сохранить изменения</button>
-                <button onClick={props.deleteUser} className={style.button} type='submit'>Удалить сотрудника</button>
-            </Form>
+                    <pre>
+                                 {JSON.stringify(values, null, 2)}
+                             </pre>
+                </Form>
+            )}
+
         </Formik>
     </div>
 );

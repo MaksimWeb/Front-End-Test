@@ -8,10 +8,9 @@ const TOGGLE_IS_CHANGING = 'TOGGLE_IS_CHANGING';
 
 
 class Profit  {
-    constructor(salary, month, year) {
+    constructor(salary, date) {
         this.salary = salary
-        this.month = month
-        this.year = year
+        this.date = date
     }
 }
 
@@ -27,8 +26,8 @@ let initialState = {
             salary: '130000',
             avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467',
             profit: [
-                new Profit (130000, 2, 2001),
-                new Profit (130000, 2, 2001)
+                new Profit (130000, '2019-02-03'),
+                new Profit (130000, '2010-10-13')
             ]
         },
         {
@@ -41,7 +40,7 @@ let initialState = {
             salary: '13000',
             avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467',
             profit: [
-                new Profit (13000, 1, 2004)
+                new Profit (13000, '2021-12-31')
             ]
         },
         {
@@ -54,7 +53,7 @@ let initialState = {
             salary: '50000',
             avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467',
             profit: [
-                new Profit (50000, 5, 2000)
+                new Profit (50000, '2000-05-05')
             ]
         }
     ],
@@ -100,6 +99,7 @@ const workerReducer = (state = initialState, action) => {
             user.age = action.worker.editedAge
             user.position = action.worker.editedPosition
             user.salary = action.worker.editedSalary
+            user.profit = action.worker.editedProfit
             return {
                 ...state,
                 workers: [...arr],
