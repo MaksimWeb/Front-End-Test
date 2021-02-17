@@ -3,15 +3,10 @@
     width: 100%;
 }
 
-input {
-    display: block;
-    margin-bottom: 10px;
-}
-
 button {
     padding: 10px;
 }
 
-.input {
-    width: 200px;
+.formField {
+    margin-bottom: 10px  !important;;
 }

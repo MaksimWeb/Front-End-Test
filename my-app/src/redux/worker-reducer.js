@@ -7,8 +7,9 @@ const TOGGLE_IS_DELETING = 'TOGGLE_IS_DELETING';
 const TOGGLE_IS_CHANGING = 'TOGGLE_IS_CHANGING';
 
 
-class Profit  {
-    constructor(salary, date) {
+export class  Profit  {
+    constructor(id, salary, date) {
+        this.id = id
         this.salary = salary
         this.date = date
     }
@@ -26,21 +27,21 @@ let initialState = {
             salary: '130000',
             avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467',
             profit: [
-                new Profit (130000, '2019-02-03'),
-                new Profit (130000, '2010-10-13')
+                new Profit ( 1,130000, '2019-02-03'),
+                new Profit (2, 130000, '2010-10-13')
             ]
         },
         {
             id: 2,
             surname: 'Samson',
             name: 'Chris',
-            middlename: 'O',
+            middlename: 'Os',
             age: 20,
             position: 'Back-End',
             salary: '13000',
             avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467',
             profit: [
-                new Profit (13000, '2021-12-31')
+                new Profit (1,13000, '2021-12-31')
             ]
         },
         {
@@ -53,7 +54,7 @@ let initialState = {
             salary: '50000',
             avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467',
             profit: [
-                new Profit (50000, '2000-05-05')
+                new Profit (1,50000, '2000-05-05')
             ]
         }
     ],
@@ -80,6 +81,7 @@ const workerReducer = (state = initialState, action) => {
                 position: action.newWorkerInfo.workerPosition,
                 age: action.newWorkerInfo.workerAge,
                 salary: action.newWorkerInfo.workerSalary,
+                profit: [],
                 avatar: 'https://media.istockphoto.com/vectors/support-icon-vector-female-construction-service-worker-person-profile-vector-id1140360467'
             }
 

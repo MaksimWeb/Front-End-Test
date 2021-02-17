@@ -34,27 +34,6 @@ const ProfileContainer = (props) => {
 
 }
 
-// class ProfileContainer extends React.Component {
-//
-//     componentDidMount() {
-//         let userId = this.props.match.params.userId;
-//         if (!userId) {
-//             userId = 1;
-//         }
-//
-//         let pro = this.props.workers.workers.find(w => w.id == userId)
-//         this.props.setUserProfile(pro)
-//     }
-//
-//     render() {
-//
-//         if (this.props.profile) {
-//             return <Profile {...this.props} profile={this.props.profile}/>
-//         } else {
-//             return <p>Loading...Please wait</p>
-//         }
-//     }
-// }
 
 let mapStateToProps = (state) => ({
     workers: state.workerPage,

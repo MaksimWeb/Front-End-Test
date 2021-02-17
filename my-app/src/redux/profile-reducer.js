@@ -1,5 +1,4 @@
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const LOAD = 'LOAD'
 
 let initialState = {
     profile: null
