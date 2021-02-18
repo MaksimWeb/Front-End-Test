@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useReducer, useState} from "react";
 import style from "./Profile.module.css"
 import {Redirect} from 'react-router-dom';
 import {Formik, Field, Form, FieldArray} from 'formik';
@@ -65,11 +65,51 @@ const Profile = (props) => {
 
 const Basic = (props) => {
 
+    const euro = 88.74;
+    const dollar = 73.72;
+
     let initialState = props.profile.profit.reduce((accum, elem) => accum + elem.salary, 0)
+    let isClickedDollars = false;
+    let isClickedEuros = false;
 
     useEffect(() => {
 
     }, [initialState])
+
+
+    function reducer(state, action) {
+        switch (action.type) {
+            case 'CONVERT_TO_DOLLARS': {
+                if (dollar) {
+                    isClickedDollars = true;
+                    isClickedEuros = false;
+                    return initialState * dollar
+                } else {
+                    alert('Отсутствует курс для данной валюты')
+                    return initialState
+                }
+            }
+            case 'CONVERT_TO_EURO': {
+                if (euro) {
+                    isClickedEuros = true;
+                    isClickedDollars = false;
+                    return initialState * euro
+                } else {
+                    alert('Отсутствует курс для данной валюты')
+                    return initialState
+                }
+            }
+            case 'RESET': {
+                isClickedEuros = false;
+                isClickedDollars = false;
+                return initialState;
+            }
+            default:
+                throw new Error();
+        }
+    }
+
+    let [state, dispatch] = useReducer(reducer, initialState);
 
     return (
         <div>
@@ -87,7 +127,6 @@ const Basic = (props) => {
                 validationSchema={SignupSchema}
                 onSubmit={async (values) => {
                     props.changeData(values, props.profile.id)
-
                 }}
             >
                 {({values, errors, touched}) => (
@@ -135,6 +174,7 @@ const Basic = (props) => {
                                             ''
                                         ))}>Добавить доход</Button>
                                         {values.editedProfit.map((profit, index) => {
+
                                             return (
                                                 <div className={style.arrayField} key={profit.id}>
                                                     <Field as={TextField} type="number" placeholder='Заработок'
@@ -146,8 +186,31 @@ const Basic = (props) => {
                                             )
                                         })}
 
+                                        {
+
+                                        }
+
+                                        {isClickedDollars &&
+                                        <InputLabel htmlFor='summary'>Итог (доллары)</InputLabel>
+                                        }
+                                        {isClickedEuros &&
+                                        <InputLabel htmlFor='summary'>Итог (евро)</InputLabel>
+                                        }
+
+                                        {!isClickedDollars && !isClickedEuros &&
                                         <InputLabel htmlFor='summary'>Итог (руб.)</InputLabel>
-                                        <Field id="summary" as={TextField} value={initialState}/>
+                                        }
+
+                                        <Field id="summary" as={TextField} value={state}/>
+                                        <Button disabled={isClickedDollars}
+                                                onClick={() => dispatch({type: 'CONVERT_TO_DOLLARS'})}>Перевести в
+                                            доллары</Button>
+                                        <Button disabled={isClickedEuros}
+                                                onClick={() => dispatch({type: 'CONVERT_TO_EURO'})}>Перевести в
+                                            евро</Button>
+                                        <Button
+                                            onClick={() => dispatch({type: 'RESET'})}>Сброс</Button>
+
                                     </div>
                                 )
                                 }
@@ -158,7 +221,8 @@ const Basic = (props) => {
                             <Button onClick={props.deleteUser} className={style.button} type='submit'>Удалить
                                 сотрудника</Button>
                         </div>
-
+                        <Button onClick={() => console.log(values.editedProfit[0].date)}>rr</Button>
+                        <Button onClick={() => console.log(values.editedProfit[0].date.slice(0, 4))}>rr</Button>
                         <pre>
                             {JSON.stringify(values, null, 2)}
                                 </pre>

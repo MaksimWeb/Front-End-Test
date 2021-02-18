@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
-import {setUserProfile} from "../../redux/profile-reducer";
+import {convertToDollars, setUserProfile} from "../../redux/profile-reducer";
 import {
     changeProfileData,
     deleteUser,
@@ -48,4 +48,5 @@ export default connect(mapStateToProps,
         deleteUser, toggleIsDeleting,
         changeProfileData,
         toggleIsChanging,
+
     })(withURLDataContainer);
