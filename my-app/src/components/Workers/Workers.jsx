@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useReducer, useState} from "react";
 import style from "./Workers.module.css"
 import {NavLink} from "react-router-dom";
 import {Formik, Field, Form} from 'formik';
@@ -6,38 +6,36 @@ import {Button, InputLabel, TextField} from "@material-ui/core";
 
 const Workers = (props) => {
 
+    let [workers, setNewArr] = useState(props.workers)
+
     useEffect(() => {
 
     }, [props.workers.summary])
 
+
     let filter = (sum) => {
-        props.workers.filter(el => {
+        let newWorkersArr = props.workers.filter(el => {
             let calculate = el.profit.reduce((accum, elem) => accum + elem.salary, 0)
-            if (calculate > sum) {
-                return (
-                    <ul className={style.list}>
-                        <li>{el.surname}</li>
-                        <li>{el.name}</li>
-                        <li>{el.middlename}</li>
-                        <li>Возраст: {el.age}</li>
-                        <li>Должность: {el.position}</li>
-                        <li>Зарплата: {el.salary} руб.</li>
-                        <li>Доход: {el.profit.reduce((accum, elem) => accum + elem.salary, 0)} руб.</li>
-                    </ul>
-                )
-            }
-            return '';
+            if (calculate > sum) return true;
+
+            return false;
         })
+
+        newWorkersArr.length >= 1 && setNewArr(newWorkersArr)
+    }
+
+    let reset = () => {
+        setNewArr(props.workers);
     }
 
     return (
         <div className={style.workersBlock}>
             <div>
-                <FilterForm filter={filter} workersArray={props.workers}/>
+                <FilterForm filter={filter} reset={reset}/>
             </div>
             <div>
                 {
-                    props.workers.map(w => <div>
+                    workers.map(w => <div>
                         <NavLink className={style.link} to={'/profile/' + w.id}>
                             <ul className={style.list}>
                                 <li>{w.surname}</li>
@@ -60,21 +58,19 @@ function validationFilter(value) {
     let error;
     const symbols = (/^[^0-9]*$/);
 
-    if (value === "Bob") {
-        error = 'RR'
-    } else if (symbols.test(value)) error = 'Некорректные данные'
+    if (symbols.test(value)) error = 'Некорректные данные'
 
     return error;
 }
 
 const FilterForm = (props) => {
+
     return (
         <div>
 
             <Formik
                 initialValues={{
                     sum: '',
-                    workersArray: props.workersArray
                 }}
 
                 onSubmit={async (values) => {
@@ -92,8 +88,8 @@ const FilterForm = (props) => {
 
                         <div>
                             <Button type="submit">Поиск</Button>
+                            <Button onClick={props.reset}>Сброс</Button>
                         </div>
-
                     </Form>
                 )}
 
