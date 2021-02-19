@@ -1,9 +1,15 @@
 .app-wrapper {
-  margin: 0 auto;
-  box-sizing: border-box;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 75px;
 }
 
 .app-content {
-  display: flex;
-  column-gap: 10px;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+}
+
+.app-navbar {
+
 }

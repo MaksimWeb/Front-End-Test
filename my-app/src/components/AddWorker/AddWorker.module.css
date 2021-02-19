@@ -1,6 +1,5 @@
 .workersBlock {
-    background: darkseagreen;
-    width: 100%;
+    margin: 0 auto;
 }
 
 button {
@@ -8,5 +7,9 @@ button {
 }
 
 .formField {
-    margin-bottom: 10px  !important;;
+    margin-bottom: 10px !important;;
+}
+
+.header {
+    margin-bottom: 10px;
 }

@@ -1,8 +1,6 @@
-.navbarBlock {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    border-right: 1px solid black;
+
+.list {
+    background: aquamarine;
 }
 
 .item {

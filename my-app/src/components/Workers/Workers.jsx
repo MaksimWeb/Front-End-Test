@@ -12,38 +12,40 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 
 
-function MyTable(props) {
-    return (
-        <TableContainer component={Paper}>
-            <Table size="small" aria-label="a dense table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Фамилия</TableCell>
-                        <TableCell align="right">Имя</TableCell>
-                        <TableCell align="right">Отчество</TableCell>
-                        <TableCell align="right">Возраст</TableCell>
-                        <TableCell align="right">Должность</TableCell>
-                        <TableCell align="right">Заработная плата</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {props.workers.map((row) => (
-                        <TableRow key={row.id}>
-                            <TableCell component="th" scope="row">
-                                {row.surname}
-                            </TableCell>
-                            <TableCell align="right">{row.name}</TableCell>
-                            <TableCell align="right">{row.middlename}</TableCell>
-                            <TableCell align="right">{row.age}</TableCell>
-                            <TableCell align="right">{row.position}</TableCell>
-                            <TableCell align="right">{row.salary}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    );
-}
+// function MyTable(props) {
+//     return (
+//         <TableContainer component={Paper}>
+//             <Table size="small" aria-label="a dense table">
+//                 <TableHead>
+//                     <TableRow>
+//                         <TableCell>Фамилия</TableCell>
+//                         <TableCell align="right">Имя</TableCell>
+//                         <TableCell align="right">Отчество</TableCell>
+//                         <TableCell align="right">Возраст</TableCell>
+//                         <TableCell align="right">Должность</TableCell>
+//                         <TableCell align="right">Заработная плата</TableCell>
+//                         <TableCell align="right">Доход</TableCell>
+//                     </TableRow>
+//                 </TableHead>
+//                 <TableBody>
+//                     {props.workers.map((row) => (
+//                         <TableRow key={row.id}>
+//                             <TableCell component="th" scope="row">
+//                                 {row.surname}
+//                             </TableCell>
+//                             <TableCell align="right">{row.name}</TableCell>
+//                             <TableCell align="right">{row.middlename}</TableCell>
+//                             <TableCell align="right">{row.age}</TableCell>
+//                             <TableCell align="right">{row.position}</TableCell>
+//                             <TableCell align="right">{row.salary}</TableCell>
+//                             <TableCell align="right">{row.salary}</TableCell>
+//                         </TableRow>
+//                     ))}
+//                 </TableBody>
+//             </Table>
+//         </TableContainer>
+//     );
+// }
 
 const Workers = (props) => {
 
@@ -74,26 +76,43 @@ const Workers = (props) => {
             <div>
                 <FilterForm filter={filter} reset={reset}/>
             </div>
-            <div>
-                {
-                    workers.map(w => <div>
-                        <NavLink className={style.link} to={'/profile/' + w.id}>
-                            <ul className={style.list}>
-                                <li className={style.listItem}>{w.surname}</li>
-                                <li className={style.listItem}>{w.name}</li>
-                                <li className={style.listItem}>{w.middlename}</li>
-                                <li className={style.listItem}>Возраст: {w.age}</li>
-                                <li className={style.listItem}>Должность: {w.position}</li>
-                                <li className={style.listItem}>Зарплата: {w.salary} руб.</li>
-                                <li className={style.listItem}>Доход: {w.profit.reduce((accum, elem) => accum + elem.salary, 0)} руб.</li>
-                            </ul>
-                        </NavLink>
-                    </div>)
-                }
-            </div>
-            <div>
-                <MyTable workers={props.workers}/>
-            </div>
+            <TableContainer component={Paper}>
+                <Table size="small" aria-label="a dense table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell></TableCell>
+                            <TableCell>Фамилия</TableCell>
+                            <TableCell align="right">Имя</TableCell>
+                            <TableCell align="right">Отчество</TableCell>
+                            <TableCell align="right">Возраст</TableCell>
+                            <TableCell align="right">Должность</TableCell>
+                            <TableCell align="right">Заработная плата</TableCell>
+                            <TableCell align="right">Доход</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {workers.map((row) => (
+                            <TableRow key={row.id}>
+                                <NavLink to={'/profile/' + row.id}>
+                                    <TableCell component="th" scope="row">
+                                        {<img className={style.avatar} src={row.avatar} alt="Link"/>}
+                                    </TableCell>
+                                </NavLink>
+                                <TableCell>
+                                    {row.surname}
+                                </TableCell>
+                                <TableCell align="right">{row.name}</TableCell>
+                                <TableCell align="right">{row.middlename}</TableCell>
+                                <TableCell align="right">{row.age}</TableCell>
+                                <TableCell align="right">{row.position}</TableCell>
+                                <TableCell align="right">{row.salary}</TableCell>
+                                <TableCell
+                                    align="right">{row.profit.reduce((accum, elem) => accum + elem.salary, 0)}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </div>
     )
 }
@@ -130,9 +149,9 @@ const FilterForm = (props) => {
                         {errors.sum && touched.sum ? (<div>{errors.sum}</div>
                         ) : null}
 
-                        <div>
-                            <Button type="submit">Поиск</Button>
-                            <Button onClick={props.reset}>Сброс</Button>
+                        <div className={style.buttonsBlock}>
+                            <Button variant='contained' color='primary' type="submit">Поиск</Button>
+                            <Button variant='contained' color='secondary' onClick={props.reset}>Сброс</Button>
                         </div>
                     </Form>
                 )}
@@ -143,3 +162,38 @@ const FilterForm = (props) => {
 }
 
 export default Workers;
+
+{/*<div>*/
+}
+{/*    {*/
+}
+{/*        workers.map(w => <div>*/
+}
+{/*            <NavLink className={style.link} to={'/profile/' + w.id}>*/
+}
+{/*                <ul className={style.list}>*/
+}
+{/*                    <li className={style.listItem}>{w.surname}</li>*/
+}
+{/*                    <li className={style.listItem}>{w.name}</li>*/
+}
+{/*                    <li className={style.listItem}>{w.middlename}</li>*/
+}
+{/*                    <li className={style.listItem}>Возраст: {w.age}</li>*/
+}
+{/*                    <li className={style.listItem}>Должность: {w.position}</li>*/
+}
+{/*                    <li className={style.listItem}>Зарплата: {w.salary} руб.</li>*/
+}
+{/*                    <li className={style.listItem}>Доход: {w.profit.reduce((accum, elem) => accum + elem.salary, 0)} руб.</li>*/
+}
+{/*                </ul>*/
+}
+{/*            </NavLink>*/
+}
+{/*        </div>)*/
+}
+{/*    }*/
+}
+{/*</div>*/
+}

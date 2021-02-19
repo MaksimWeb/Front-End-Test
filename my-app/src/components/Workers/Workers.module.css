@@ -1,26 +1,19 @@
 .workersBlock {
-    /*display: flex;*/
-    width: 100%;
+    margin: 0 auto;
 }
 
-.list {
+.avatar {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.formField {
+    margin-bottom: 20px !important;
+}
+
+.buttonsBlock {
     display: flex;
     column-gap: 10px;
-    align-items: center;
-    justify-content: center;
-    list-style-type: none;
-}
-
-.link {
-    color: white;
-    text-decoration: none;
-}
-
-.listItem {
-    font-size: 20px;
-    color: black;
-}
-
-.table {
-    margin: 50px;
+    margin-bottom: 10px;
 }

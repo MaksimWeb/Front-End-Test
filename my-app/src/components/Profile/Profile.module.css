@@ -1,9 +1,8 @@
 .profileBlock {
-    background: darkseagreen;
-    width: 100%;
+    margin: 0 auto
 }
 
-.profileBlock ul{
+.profileBlock ul {
     list-style-type: none;
 }
 
@@ -18,9 +17,22 @@
 }
 
 .formField {
-    margin-bottom: 10px  !important;;
+    margin-bottom: 10px !important;;
 }
 
 .arrayField {
     margin-bottom: 10px !important;
+}
+
+h1 {
+    margin: 0;
+}
+
+.saveDeleteButtons {
+    display: flex;
+    column-gap: 10px;
+}
+
+.filterButton {
+    margin-right: 10px;
 }

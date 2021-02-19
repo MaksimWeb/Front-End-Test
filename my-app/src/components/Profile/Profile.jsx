@@ -188,11 +188,12 @@ const Basic = (props) => {
                             <FieldArray name='editedProfit'>
                                 {(arrayHelpers) => (
                                     <div>
-                                        <Button onClick={() => arrayHelpers.push(new Profit(
-                                            values.editedProfit.length + 1,
-                                            '',
-                                            ''
-                                        ))}>Добавить доход</Button>
+                                        <Button variant='contained' color='primary'
+                                                onClick={() => arrayHelpers.push(new Profit(
+                                                    values.editedProfit.length + 1,
+                                                    '',
+                                                    ''
+                                                ))}>Добавить доход</Button>
                                         {values.editedProfit.map((profit, index) => {
 
                                             return (
@@ -207,12 +208,16 @@ const Basic = (props) => {
                                         })}
 
                                         <Field as={TextField} name='filterYear' placeholder='Введите год поиска'/>
-                                        <Button onClick={() => dispatch({
+
+                                        <Button className={style.filterButton} variant='contained' color='primary' onClick={() => dispatch({
                                             type: 'FILTER',
                                             year: values.filterYear
                                         })}>Поиск</Button>
-                                        <Button
-                                            onClick={() => {dispatch({type: 'RESET_FILTER', year: values.filterYear}); values.filterYear='' }}>Сброс
+                                        <Button variant='contained' color='secondary'
+                                                onClick={() => {
+                                                    dispatch({type: 'RESET_FILTER', year: values.filterYear});
+                                                    values.filterYear = ''
+                                                }}>Сброс
                                             фильтра</Button>
 
                                         {isClickedDollars &&
@@ -240,18 +245,13 @@ const Basic = (props) => {
                                 )
                                 }
                             </FieldArray>
-
-
-                            <Button type="submit">Сохранить изменения</Button>
-                            <Button onClick={props.deleteUser} className={style.button} type='submit'>Удалить
-                                сотрудника</Button>
+                            <div className={style.saveDeleteButtons}>
+                                <Button variant='contained' color='primary' type="submit">Сохранить изменения</Button>
+                                <Button variant='contained' color='secondary' onClick={props.deleteUser}
+                                        className={style.button} type='submit'>Удалить
+                                    сотрудника</Button>
+                            </div>
                         </div>
-
-                        {/*<Button onClick={() => console.log(values.editedProfit[0].date)}>rr</Button>*/}
-                        {/*<Button onClick={() => console.log(values.editedProfit[0].date.slice(0, 4))}>rr</Button>*/}
-                        <pre>
-                            {JSON.stringify(values, null, 2)}
-                                </pre>
                     </Form>
                 )}
 

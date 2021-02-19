@@ -2,26 +2,25 @@ import React from "react";
 import style from "./Header.module.css";
 import {AppBar, Container, Toolbar} from '@material-ui/core';
 import {makeStyles} from "@material-ui/core/styles";
+import Navbar, {MenuButton} from "../Navbar/Navbar";
 
 const useStyles = makeStyles((theme) => ({
     header: {
-        textAlign: 'center'
+        display: "flex",
+        alignItems: "center",
+        columnGap: "40%"
     },
-    text: {
-        margin: '0 auto'
-    }
+
 }))
 
 const Header = () => {
     const classes = useStyles();
     return (
-        <AppBar className={classes.header}>
-            <Container   fixed>
-                <Toolbar>
+        <AppBar>
+                <Toolbar className={classes.header}>
+                    <Navbar/>
                     <p className={classes.text}>Смарт-Доход - приложение для подсчёта доходов</p>
                 </Toolbar>
-
-            </Container>
         </AppBar>
     )
 }

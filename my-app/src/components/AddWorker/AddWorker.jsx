@@ -38,8 +38,8 @@ const AddWorker = (props) => {
     }
 
     return (
-        <div>
-            <h1>Форма добавления нового сотрудника</h1>
+        <div className={style.workersBlock}>
+            <h1 className={style.header}>Форма добавления нового сотрудника</h1>
             <AddWorkerForm addUser={onAddUser}/>
         </div>
     )
@@ -52,7 +52,7 @@ const AddWorkerForm = (props) => {
     function reducer(state, action) {
         switch (action.type) {
             case 'submit': {
-              return true;
+                return true;
             }
             default:
                 throw new Error();
@@ -79,7 +79,7 @@ const AddWorkerForm = (props) => {
                 validationSchema={SignupSchema}
                 onSubmit={async (values) => {
                     props.addUser(values)
-                    dispatch({type:'submit'})
+                    dispatch({type: 'submit'})
                 }}
             >
                 {({values, errors, touched}) => (
@@ -118,7 +118,7 @@ const AddWorkerForm = (props) => {
                                placeholder="Введите зп сотрудника" as={TextField}/>
 
                         <div>
-                            <Button type="submit">Добавить сотрудника</Button>
+                            <Button variant='contained' color='primary' type="submit">Добавить сотрудника</Button>
                         </div>
 
                     </Form>
