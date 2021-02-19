@@ -1,6 +1,5 @@
 .workersBlock {
-    display: flex;
-    background: darkseagreen;
+    /*display: flex;*/
     width: 100%;
 }
 
@@ -15,4 +14,13 @@
 .link {
     color: white;
     text-decoration: none;
+}
+
+.listItem {
+    font-size: 20px;
+    color: black;
+}
+
+.table {
+    margin: 50px;
 }

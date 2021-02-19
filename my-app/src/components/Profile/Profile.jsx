@@ -72,18 +72,21 @@ const Basic = (props) => {
     let isClickedDollars = false;
     let isClickedEuros = false;
 
+
     useEffect(() => {
 
     }, [initialState])
 
+    let [profitList, setYear] = useState(props.profile.profit)
 
     function reducer(state, action) {
         switch (action.type) {
             case 'CONVERT_TO_DOLLARS': {
+
                 if (dollar) {
                     isClickedDollars = true;
                     isClickedEuros = false;
-                    return initialState * dollar
+                    return Math.floor(initialState / dollar * 100) / 100
                 } else {
                     alert('Отсутствует курс для данной валюты')
                     return initialState
@@ -93,7 +96,7 @@ const Basic = (props) => {
                 if (euro) {
                     isClickedEuros = true;
                     isClickedDollars = false;
-                    return initialState * euro
+                    return Math.floor(initialState / euro * 100) / 100
                 } else {
                     alert('Отсутствует курс для данной валюты')
                     return initialState
@@ -104,6 +107,22 @@ const Basic = (props) => {
                 isClickedDollars = false;
                 return initialState;
             }
+            case 'FILTER': {
+                let filteredProfitList = props.profile.profit.filter(el => {
+
+                    if (action.year === el.date.slice(0, 4)) return true
+
+                    return false;
+                })
+
+                filteredProfitList.length >= 1 && setYear(filteredProfitList)
+                return filteredProfitList.reduce((accum, elem) => accum + elem.salary, 0)
+            }
+            case "RESET_FILTER": {
+                setYear(props.profile.profit)
+                return props.profile.profit.reduce((accum, elem) => accum + elem.salary, 0)
+            }
+
             default:
                 throw new Error();
         }
@@ -115,6 +134,7 @@ const Basic = (props) => {
         <div>
 
             <Formik
+                enableReinitialize
                 initialValues={{
                     editedSurname: props.profile.surname,
                     editedName: props.profile.name,
@@ -122,7 +142,7 @@ const Basic = (props) => {
                     editedAge: props.profile.age,
                     editedPosition: props.profile.position,
                     editedSalary: props.profile.salary,
-                    editedProfit: props.profile.profit
+                    editedProfit: profitList,
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={async (values) => {
@@ -186,9 +206,14 @@ const Basic = (props) => {
                                             )
                                         })}
 
-                                        {
-
-                                        }
+                                        <Field as={TextField} name='filterYear' placeholder='Введите год поиска'/>
+                                        <Button onClick={() => dispatch({
+                                            type: 'FILTER',
+                                            year: values.filterYear
+                                        })}>Поиск</Button>
+                                        <Button
+                                            onClick={() => {dispatch({type: 'RESET_FILTER', year: values.filterYear}); values.filterYear='' }}>Сброс
+                                            фильтра</Button>
 
                                         {isClickedDollars &&
                                         <InputLabel htmlFor='summary'>Итог (доллары)</InputLabel>
@@ -201,7 +226,7 @@ const Basic = (props) => {
                                         <InputLabel htmlFor='summary'>Итог (руб.)</InputLabel>
                                         }
 
-                                        <Field id="summary" as={TextField} value={state}/>
+                                        <Field id="summary" name='summary' as={TextField} value={state}/>
                                         <Button disabled={isClickedDollars}
                                                 onClick={() => dispatch({type: 'CONVERT_TO_DOLLARS'})}>Перевести в
                                             доллары</Button>
@@ -221,8 +246,9 @@ const Basic = (props) => {
                             <Button onClick={props.deleteUser} className={style.button} type='submit'>Удалить
                                 сотрудника</Button>
                         </div>
-                        <Button onClick={() => console.log(values.editedProfit[0].date)}>rr</Button>
-                        <Button onClick={() => console.log(values.editedProfit[0].date.slice(0, 4))}>rr</Button>
+
+                        {/*<Button onClick={() => console.log(values.editedProfit[0].date)}>rr</Button>*/}
+                        {/*<Button onClick={() => console.log(values.editedProfit[0].date.slice(0, 4))}>rr</Button>*/}
                         <pre>
                             {JSON.stringify(values, null, 2)}
                                 </pre>

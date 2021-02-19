@@ -1,8 +1,49 @@
-import React, {useEffect, useReducer, useState} from "react";
+import React, {useEffect, useState} from "react";
 import style from "./Workers.module.css"
 import {NavLink} from "react-router-dom";
 import {Formik, Field, Form} from 'formik';
 import {Button, InputLabel, TextField} from "@material-ui/core";
+import TableContainer from "@material-ui/core/TableContainer";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
+
+
+function MyTable(props) {
+    return (
+        <TableContainer component={Paper}>
+            <Table size="small" aria-label="a dense table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Фамилия</TableCell>
+                        <TableCell align="right">Имя</TableCell>
+                        <TableCell align="right">Отчество</TableCell>
+                        <TableCell align="right">Возраст</TableCell>
+                        <TableCell align="right">Должность</TableCell>
+                        <TableCell align="right">Заработная плата</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {props.workers.map((row) => (
+                        <TableRow key={row.id}>
+                            <TableCell component="th" scope="row">
+                                {row.surname}
+                            </TableCell>
+                            <TableCell align="right">{row.name}</TableCell>
+                            <TableCell align="right">{row.middlename}</TableCell>
+                            <TableCell align="right">{row.age}</TableCell>
+                            <TableCell align="right">{row.position}</TableCell>
+                            <TableCell align="right">{row.salary}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
+}
 
 const Workers = (props) => {
 
@@ -38,17 +79,20 @@ const Workers = (props) => {
                     workers.map(w => <div>
                         <NavLink className={style.link} to={'/profile/' + w.id}>
                             <ul className={style.list}>
-                                <li>{w.surname}</li>
-                                <li>{w.name}</li>
-                                <li>{w.middlename}</li>
-                                <li>Возраст: {w.age}</li>
-                                <li>Должность: {w.position}</li>
-                                <li>Зарплата: {w.salary} руб.</li>
-                                <li>Доход: {w.profit.reduce((accum, elem) => accum + elem.salary, 0)} руб.</li>
+                                <li className={style.listItem}>{w.surname}</li>
+                                <li className={style.listItem}>{w.name}</li>
+                                <li className={style.listItem}>{w.middlename}</li>
+                                <li className={style.listItem}>Возраст: {w.age}</li>
+                                <li className={style.listItem}>Должность: {w.position}</li>
+                                <li className={style.listItem}>Зарплата: {w.salary} руб.</li>
+                                <li className={style.listItem}>Доход: {w.profit.reduce((accum, elem) => accum + elem.salary, 0)} руб.</li>
                             </ul>
                         </NavLink>
                     </div>)
                 }
+            </div>
+            <div>
+                <MyTable workers={props.workers}/>
             </div>
         </div>
     )
