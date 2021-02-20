@@ -10,20 +10,20 @@ const symbols = (/^[^0-9]*$/);
 
 const SignupSchema = Yup.object().shape({
     editedSurname: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required')
-        .matches(symbols, 'Invalid surname'),
+        .min(2, 'Мало символов!')
+        .max(50, 'Слишком длинное!')
+        .required('Обязательное поле')
+        .matches(symbols, 'Неверный формат фамилии'),
     editedName: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required')
-        .matches(symbols, 'Invalid name'),
+        .min(2, 'Мало символов!')
+        .max(50, 'Слишком длинное!')
+        .required('Обязательное поле')
+        .matches(symbols, 'Неверный формат имени'),
     editedMiddlename: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required')
-        .matches(symbols, 'Invalid middlename'),
+        .min(2, 'Мало символов!')
+        .max(50, 'Слишком длинное!')
+        .required('Обязательное поле')
+        .matches(symbols, 'Неверный формат отчества'),
     editedPosition: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
@@ -31,9 +31,19 @@ const SignupSchema = Yup.object().shape({
         .matches(symbols, 'Invalid position'),
     editedProfit: Yup.array().of(
         Yup.object({
-            salary: Yup.string().required()
-        })
-    )
+            salary: Yup.number()
+                .required()
+                .positive('Доход не может быть отрицательным')
+        }),
+    ),
+    editedAge: Yup.number()
+        .integer('Возраст не может быть дробным числом')
+        .required('Обязательное поле')
+        .positive('Возраст не может быть отрицательным'),
+    editedSalary: Yup.number()
+        .integer('Возраст не может быть дробным числом')
+        .required('Обязательное поле')
+        .positive('Возраст не может быть отрицательным'),
 });
 
 const Profile = (props) => {
@@ -173,6 +183,8 @@ const Basic = (props) => {
                         <InputLabel htmlFor='age'>Возраст</InputLabel>
                         <Field className={style.formField} id="age" name="editedAge" type="number"
                                placeholder="Введите возраст сотрудника" as={TextField}/>
+                        {errors.editedAge && touched.editedAge ? (<div>{errors.editedAge}</div>
+                        ) : null}
 
                         <InputLabel htmlFor='position'>Должность</InputLabel>
                         <Field className={style.formField} id="position" name="editedPosition"
@@ -183,68 +195,77 @@ const Basic = (props) => {
                         <InputLabel htmlFor='salary'>Заработная плата (руб.)</InputLabel>
                         <Field className={style.formField} id="salary" name="editedSalary" type="number"
                                placeholder="Введите зп сотрудника" as={TextField}/>
+                        {errors.editedSalary && touched.editedSalary ? (<div>{errors.editedSalary}</div>
+                        ) : null}
 
                         <div>
                             <FieldArray name='editedProfit'>
                                 {(arrayHelpers) => (
                                     <div>
-                                        <Button variant='contained' color='primary'
+                                        <Button className={style.addProfit} variant='contained' color='primary'
                                                 onClick={() => arrayHelpers.push(new Profit(
                                                     values.editedProfit.length + 1,
                                                     '',
                                                     ''
                                                 ))}>Добавить доход</Button>
-                                        {values.editedProfit.map((profit, index) => {
+                                        <div className={style.arrayForm}>
+                                            <div>
+                                                {values.editedProfit.map((profit, index) => {
+                                                    return (
+                                                        <div className={style.arrayField} key={profit.id}>
+                                                            <Field as={TextField} type="number" placeholder='Заработок'
+                                                                   name={`editedProfit.${index}.salary`}/>
+                                                            <Field as={TextField} type='date' placeholder='Месяц'
+                                                                   name={`editedProfit.${index}.date`}/>
+                                                            <Button
+                                                                onClick={() => arrayHelpers.remove(index)}>x</Button>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
 
-                                            return (
-                                                <div className={style.arrayField} key={profit.id}>
-                                                    <Field as={TextField} type="number" placeholder='Заработок'
-                                                           name={`editedProfit.${index}.salary`}/>
-                                                    <Field as={TextField} type='date' placeholder='Месяц'
-                                                           name={`editedProfit.${index}.date`}/>
-                                                    <Button onClick={() => arrayHelpers.remove(index)}>x</Button>
-                                                </div>
-                                            )
-                                        })}
-
-                                        <Field as={TextField} name='filterYear' placeholder='Введите год поиска'/>
-
-                                        <Button className={style.filterButton} variant='contained' color='primary' onClick={() => dispatch({
-                                            type: 'FILTER',
-                                            year: values.filterYear
-                                        })}>Поиск</Button>
-                                        <Button variant='contained' color='secondary'
-                                                onClick={() => {
-                                                    dispatch({type: 'RESET_FILTER', year: values.filterYear});
-                                                    values.filterYear = ''
-                                                }}>Сброс
-                                            фильтра</Button>
-
-                                        {isClickedDollars &&
-                                        <InputLabel htmlFor='summary'>Итог (доллары)</InputLabel>
-                                        }
-                                        {isClickedEuros &&
-                                        <InputLabel htmlFor='summary'>Итог (евро)</InputLabel>
-                                        }
-
-                                        {!isClickedDollars && !isClickedEuros &&
-                                        <InputLabel htmlFor='summary'>Итог (руб.)</InputLabel>
-                                        }
-
-                                        <Field id="summary" name='summary' as={TextField} value={state}/>
-                                        <Button disabled={isClickedDollars}
-                                                onClick={() => dispatch({type: 'CONVERT_TO_DOLLARS'})}>Перевести в
-                                            доллары</Button>
-                                        <Button disabled={isClickedEuros}
-                                                onClick={() => dispatch({type: 'CONVERT_TO_EURO'})}>Перевести в
-                                            евро</Button>
-                                        <Button
-                                            onClick={() => dispatch({type: 'RESET'})}>Сброс</Button>
-
+                                            <div>
+                                                <Field className={style.filterYear} as={TextField} name='filterYear'
+                                                       placeholder='Введите год поиска'/>
+                                                <Button className={style.filterButton} variant='contained'
+                                                        color='primary'
+                                                        onClick={() => dispatch({
+                                                            type: 'FILTER',
+                                                            year: values.filterYear
+                                                        })}>Поиск</Button>
+                                                <Button variant='contained' color='secondary'
+                                                        onClick={() => {
+                                                            dispatch({type: 'RESET_FILTER', year: values.filterYear});
+                                                            values.filterYear = ''
+                                                        }}>Сброс
+                                                    фильтра</Button>
+                                            </div>
+                                        </div>
                                     </div>
                                 )
                                 }
                             </FieldArray>
+
+                            {isClickedDollars &&
+                            <InputLabel htmlFor='summary'>Итог (доллары)</InputLabel>
+                            }
+                            {isClickedEuros &&
+                            <InputLabel htmlFor='summary'>Итог (евро)</InputLabel>
+                            }
+
+                            {!isClickedDollars && !isClickedEuros &&
+                            <InputLabel htmlFor='summary'>Итог (руб.)</InputLabel>
+                            }
+
+                            <Field id="summary" name='summary' as={TextField} value={state}/>
+                            <Button disabled={isClickedDollars}
+                                    onClick={() => dispatch({type: 'CONVERT_TO_DOLLARS'})}>Перевести в
+                                доллары</Button>
+                            <Button disabled={isClickedEuros}
+                                    onClick={() => dispatch({type: 'CONVERT_TO_EURO'})}>Перевести в
+                                евро</Button>
+                            <Button
+                                onClick={() => dispatch({type: 'RESET'})}>Сброс</Button>
                             <div className={style.saveDeleteButtons}>
                                 <Button variant='contained' color='primary' type="submit">Сохранить изменения</Button>
                                 <Button variant='contained' color='secondary' onClick={props.deleteUser}

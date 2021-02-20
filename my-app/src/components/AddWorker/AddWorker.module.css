@@ -13,3 +13,7 @@ button {
 .header {
     margin-bottom: 10px;
 }
+
+.select {
+    display: block !important;
+}

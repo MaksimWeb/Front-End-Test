@@ -1,7 +1,7 @@
 import React, {useReducer} from "react";
 import style from "./AddWorker.module.css"
 import {Formik, Field, Form} from 'formik';
-import {Button, InputLabel, TextField} from "@material-ui/core";
+import {Button, FormControl, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
 import * as Yup from 'yup';
 import {Redirect} from "react-router-dom";
 
@@ -9,25 +9,28 @@ const symbols = (/^[^0-9]*$/);
 
 const SignupSchema = Yup.object().shape({
     workerSurname: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required')
-        .matches(symbols, 'Invalid surname'),
+        .min(2, 'Мало символов!')
+        .max(50, 'Слишком длинное!')
+        .required('Обязательное поле')
+        .matches(symbols, 'Неверный формат фамилии'),
     workerName: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required')
-        .matches(symbols, 'Invalid name'),
+        .min(2, 'Мало символов!')
+        .max(50, 'Слишком длинное!')
+        .required('Обязательное поле')
+        .matches(symbols, 'Неверный формат имени'),
     workerMiddlename: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required')
-        .matches(symbols, 'Invalid middlename'),
-    workerPosition: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required')
-        .matches(symbols, 'Invalid position')
+        .max(50, 'Слишком длинное!')
+        .required('Обязательное поле')
+        .matches(symbols, 'Неверный формат отчества'),
+    workerPosition: Yup.string().required('Обязательное поле'),
+    workerAge: Yup.number()
+        .integer('Возраст не может быть дробным числом')
+        .required('Обязательное поле')
+        .positive('Возраст не может быть отрицательным'),
+    workerSalary: Yup.number()
+        .integer('ЗП не может быть дробным числом')
+        .required('Обязательное поле')
+        .positive('ЗП не может быть отрицательным')
 });
 
 
@@ -106,16 +109,23 @@ const AddWorkerForm = (props) => {
                         <InputLabel htmlFor='age'>Возраст</InputLabel>
                         <Field className={style.formField} id="age" name="workerAge" type="number"
                                placeholder="Введите возраст сотрудника" as={TextField}/>
+                        {errors.workerAge && touched.workerAge ? (<div>{errors.workerAge}</div>
+                        ) : null}
 
                         <InputLabel htmlFor='position'>Должность</InputLabel>
-                        <Field className={style.formField} id="position" name="workerPosition"
-                               placeholder="Введите должность сотрудника" as={TextField}/>
+                        <Field className={style.formField} as={Select} id="position" name="workerPosition">
+                            <MenuItem value="Front-End">Front-End</MenuItem>
+                            <MenuItem value="Back-End">Back-End</MenuItem>
+                            <MenuItem value="Верстальщик">Верстальщик</MenuItem>
+                        </Field>
                         {errors.workerPosition && touched.workerPosition ? (<div>{errors.workerPosition}</div>
                         ) : null}
 
                         <InputLabel htmlFor='salary'>Заработная плата (руб.)</InputLabel>
                         <Field className={style.formField} id="salary" name="workerSalary" type="number"
                                placeholder="Введите зп сотрудника" as={TextField}/>
+                        {errors.workerSalary && touched.workerSalary ? (<div>{errors.workerSalary}</div>
+                        ) : null}
 
                         <div>
                             <Button variant='contained' color='primary' type="submit">Добавить сотрудника</Button>

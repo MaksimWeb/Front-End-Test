@@ -31,8 +31,22 @@ h1 {
 .saveDeleteButtons {
     display: flex;
     column-gap: 10px;
+    margin-top: 10px;
 }
 
 .filterButton {
+    margin-right: 10px !important;
+}
+
+.arrayForm {
+    display: flex;
+    align-items: flex-start;
+}
+
+.filterYear {
     margin-right: 10px;
+}
+
+.addProfit {
+    margin-bottom: 10px;
 }

@@ -1,8 +1,7 @@
 import React from "react";
-import style from "./Header.module.css";
-import {AppBar, Container, Toolbar} from '@material-ui/core';
+import {AppBar, Toolbar} from '@material-ui/core';
 import {makeStyles} from "@material-ui/core/styles";
-import Navbar, {MenuButton} from "../Navbar/Navbar";
+import Navbar from "../Navbar/Navbar";
 
 const useStyles = makeStyles((theme) => ({
     header: {

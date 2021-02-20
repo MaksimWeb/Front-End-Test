@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import style from "./Navbar.module.css";
 import {NavLink} from "react-router-dom";
 import {Button, Drawer, ListItemIcon, MenuItem, MenuList, Typography} from "@material-ui/core";
-import {AiOutlineOrderedList, AiOutlinePlusSquare, AiOutlineMenu, AiFillEdit} from "react-icons/ai"
+import {AiOutlineOrderedList, AiOutlinePlusSquare, AiOutlineMenu} from "react-icons/ai"
 
 const Navbar = () => {
     const [openDrawer, setOpenDrawer] = useState(false)
@@ -20,16 +20,6 @@ const Navbar = () => {
                         <NavLink to={'/workers'} className={style.item}>
                             <Typography color='textPrimary' variant="h4">
                                 Список сотрудников
-                            </Typography>
-                        </NavLink>
-                    </MenuItem>
-                    <MenuItem onClick={() => setOpenDrawer(false)}>
-                        <ListItemIcon>
-                            <AiFillEdit/>
-                        </ListItemIcon>
-                        <NavLink to={'/profile'} className={style.item}>
-                            <Typography color='textPrimary' variant="h4">
-                                Профиль
                             </Typography>
                         </NavLink>
                     </MenuItem>
