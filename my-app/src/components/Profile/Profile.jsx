@@ -75,8 +75,8 @@ const Profile = (props) => {
 
 const Basic = (props) => {
 
-    const euro = 88.74;
-    const dollar = 73.72;
+    const Euro = 88.74;
+    const Dollar = 73.72;
 
     let initialState = props.profile.profit.reduce((accum, elem) => accum + elem.salary, 0)
     let isClickedDollars = false;
@@ -93,20 +93,20 @@ const Basic = (props) => {
         switch (action.type) {
             case 'CONVERT_TO_DOLLARS': {
 
-                if (dollar) {
+                if (Dollar) {
                     isClickedDollars = true;
                     isClickedEuros = false;
-                    return Math.floor(initialState / dollar * 100) / 100
+                    return Math.floor(initialState / Dollar * 100) / 100
                 } else {
                     alert('Отсутствует курс для данной валюты')
                     return initialState
                 }
             }
             case 'CONVERT_TO_EURO': {
-                if (euro) {
+                if (Euro) {
                     isClickedEuros = true;
                     isClickedDollars = false;
-                    return Math.floor(initialState / euro * 100) / 100
+                    return Math.floor(initialState / Euro * 100) / 100
                 } else {
                     alert('Отсутствует курс для данной валюты')
                     return initialState
